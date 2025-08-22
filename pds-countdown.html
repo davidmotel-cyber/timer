@@ -1,0 +1,86 @@
+<!-- PDS Countdown Widget Start -->
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+    /* Scoped font style for the widget to avoid conflicts */
+    #pds-countdown-widget-container { 
+        font-family: 'Inter', sans-serif; 
+    }
+</style>
+
+<!-- Countdown Widget Container -->
+<div id="pds-countdown-widget-container" class="w-[254px] bg-[#eae6e3] rounded-lg shadow-lg p-4 flex flex-col items-center text-center">
+    
+    <!-- Main Message -->
+    <p class="text-sm font-medium text-[#3a6793] mb-4">
+        PDS will be unable to pay vouchers by <strong>April 7, 2026</strong>.
+    </p>
+
+    <!-- Countdown Timer -->
+    <div id="countdown-container" class="grid grid-cols-4 gap-2 w-full mb-4">
+        <div class="flex flex-col items-center">
+            <span id="days" class="text-3xl font-bold text-[#3a9393]">00</span>
+            <span class="text-xs text-[#3a6793] opacity-80">Days</span>
+        </div>
+        <div class="flex flex-col items-center">
+            <span id="hours" class="text-3xl font-bold text-[#3a9393]">00</span>
+            <span class="text-xs text-[#3a6793] opacity-80">Hours</span>
+        </div>
+        <div class="flex flex-col items-center">
+            <span id="minutes" class="text-3xl font-bold text-[#3a9393]">00</span>
+            <span class="text-xs text-[#3a6793] opacity-80">Mins</span>
+        </div>
+        <div class="flex flex-col items-center">
+            <span id="seconds" class="text-3xl font-bold text-[#3a9393]">00</span>
+            <span class="text-xs text-[#3a6793] opacity-80">Secs</span>
+        </div>
+    </div>
+    
+    <div id="expired-message" class="hidden text-lg font-bold text-red-600 my-4">
+        The deadline has passed.
+    </div>
+
+    <!-- Learn More Button -->
+    <a href="#" class="w-full bg-[#3a6793] text-white text-sm font-semibold py-2 px-4 rounded-md hover:bg-opacity-90 transition-colors duration-300">
+        Click here to learn more
+    </a>
+</div>
+
+<script>
+    // --- SCRIPT FOR COUNTDOWN LOGIC ---
+    (function() {
+        const countDownDate = new Date("Apr 7, 2026 00:00:00").getTime();
+        const daysEl = document.getElementById("days");
+        const hoursEl = document.getElementById("hours");
+        const minutesEl = document.getElementById("minutes");
+        const secondsEl = document.getElementById("seconds");
+        const countdownContainer = document.getElementById("countdown-container");
+        const expiredMessage = document.getElementById("expired-message");
+
+        const countdownInterval = setInterval(function() {
+            const now = new Date().getTime();
+            const distance = countDownDate - now;
+
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            if (daysEl && hoursEl && minutesEl && secondsEl) {
+                daysEl.innerHTML = String(days).padStart(2, '0');
+                hoursEl.innerHTML = String(hours).padStart(2, '0');
+                minutesEl.innerHTML = String(minutes).padStart(2, '0');
+                secondsEl.innerHTML = String(seconds).padStart(2, '0');
+            }
+
+            if (distance < 0) {
+                clearInterval(countdownInterval);
+                if (countdownContainer) countdownContainer.style.display = 'none';
+                if (expiredMessage) expiredMessage.style.display = 'block';
+            }
+        }, 1000);
+    })();
+</script>
+<!-- PDS Countdown Widget End -->
